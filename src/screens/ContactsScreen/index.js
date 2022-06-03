@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import {View, FlatList, Text, StyleSheet, TextInput} from 'react-native';
+import {
+  View, 
+  FlatList, 
+  Text, 
+  StyleSheet, 
+  TextInput
+} from 'react-native';
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
 import { useNavigation } from '@react-navigation/native';
+import { Voximplant } from 'react-native-voximplant';
 import dummyContacts from '../../../assets/data/contacts.json';
 
 const ContactsScreen = () => {
@@ -9,6 +16,17 @@ const ContactsScreen = () => {
   const [filteredContacts, setFilteredContacts] = useState(dummyContacts);
 
   const navigation = useNavigation();
+  const voximplant = Voximplant.getInstance();
+
+  useEffect(() => {
+    voximplant.on(Voximplant.ClientEvents.IncomingCall, incomingCallEvent => {
+      navigation.navigate('IncomingCall', {call: incomingCallEvent.call});
+    });
+
+    return () => {
+      voximplant.off(Voximplant.ClientEvents.IncomingCall);
+    };
+  }, []);
 
   useEffect(() => {
     const newContacts = dummyContacts.filter(contact => 

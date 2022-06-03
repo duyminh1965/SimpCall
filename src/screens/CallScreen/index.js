@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#7b4e80',
 
   },
-  cameraPreview:{
+  cameraPreview: {
     width: 100,
     height: 150,
     backgroundColor: '#ffff6e',
